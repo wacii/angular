@@ -1,11 +1,11 @@
 import * as simple_library from './simple_library';
-import * as ngCommon from 'angular2/common';
-import * as ngCompiler from 'angular2/compiler';
-import * as ngCore from 'angular2/core';
-import * as ngInstrumentation from 'angular2/instrumentation';
-import * as ngPlatformBrowser from 'angular2/platform/browser';
-import * as ngPlatformCommon from 'angular2/platform/common';
-import * as ngUpgrade from 'angular2/upgrade';
+import * as ngCommon from '@angular/common';
+import * as ngCompiler from '@angular/compiler';
+import * as ngCore from '@angular/core';
+import * as ngInstrumentation from '@angular/core';
+import * as ngPlatformBrowser from '@angular/platform-browser';
+import * as ngPlatformCommon from '@angular/common';
+import * as ngUpgrade from '@angular/upgrade';
 
 const LIB_MAP = {
   'simple_library': simple_library,

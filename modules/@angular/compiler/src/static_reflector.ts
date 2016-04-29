@@ -1,4 +1,4 @@
-import {StringMapWrapper, ListWrapper} from 'angular2/src/facade/collection';
+import {StringMapWrapper, ListWrapper} from '../src/facade/collection';
 import {
   isArray,
   isPresent,
@@ -6,7 +6,7 @@ import {
   isPrimitive,
   isStringMap,
   FunctionWrapper
-} from 'angular2/src/facade/lang';
+} from '../src/facade/lang';
 import {
   AttributeMetadata,
   DirectiveMetadata,
@@ -22,18 +22,19 @@ import {
   ViewChildrenMetadata,
   ViewQueryMetadata,
   QueryMetadata,
-} from 'angular2/src/core/metadata';
-import {ReflectorReader} from 'angular2/src/core/reflection/reflector_reader';
-import {reflector} from 'angular2/src/core/reflection/reflection';
-import {Provider} from 'angular2/src/core/di/provider';
+} from '@angular/core';
+import {ReflectorReader} from '../core_private';
+import {reflector} from '@angular/core';
+import {Provider} from '@angular/core';
 import {
   HostMetadata,
   OptionalMetadata,
   InjectableMetadata,
   SelfMetadata,
   SkipSelfMetadata,
-  InjectMetadata,
-} from "angular2/src/core/di/metadata";
+  InjectMetadata
+} from '@angular/core';
+
 
 /**
  * The host of the static resolver is expected to be able to provide module metadata in the form of
@@ -177,55 +178,55 @@ export class StaticReflector implements ReflectorReader {
     this.registerDecoratorOrConstructor(this.host.findDeclaration(provider, 'Provider'), Provider);
 
     this.registerDecoratorOrConstructor(this.host.findDeclaration(diDecorators, 'Host'),
-                                        HostMetadata);
+      HostMetadata);
     this.registerDecoratorOrConstructor(this.host.findDeclaration(diDecorators, 'Injectable'),
-                                        InjectableMetadata);
+      InjectableMetadata);
     this.registerDecoratorOrConstructor(this.host.findDeclaration(diDecorators, 'Self'),
-                                        SelfMetadata);
+      SelfMetadata);
     this.registerDecoratorOrConstructor(this.host.findDeclaration(diDecorators, 'SkipSelf'),
-                                        SkipSelfMetadata);
+      SkipSelfMetadata);
     this.registerDecoratorOrConstructor(this.host.findDeclaration(diDecorators, 'Inject'),
-                                        InjectMetadata);
+      InjectMetadata);
     this.registerDecoratorOrConstructor(this.host.findDeclaration(diDecorators, 'Optional'),
-                                        OptionalMetadata);
+      OptionalMetadata);
     this.registerDecoratorOrConstructor(this.host.findDeclaration(coreDecorators, 'Attribute'),
-                                        AttributeMetadata);
+      AttributeMetadata);
     this.registerDecoratorOrConstructor(this.host.findDeclaration(coreDecorators, 'Query'),
-                                        QueryMetadata);
+      QueryMetadata);
     this.registerDecoratorOrConstructor(this.host.findDeclaration(coreDecorators, 'ViewQuery'),
-                                        ViewQueryMetadata);
+      ViewQueryMetadata);
     this.registerDecoratorOrConstructor(this.host.findDeclaration(coreDecorators, 'ContentChild'),
-                                        ContentChildMetadata);
+      ContentChildMetadata);
     this.registerDecoratorOrConstructor(
-        this.host.findDeclaration(coreDecorators, 'ContentChildren'), ContentChildrenMetadata);
+      this.host.findDeclaration(coreDecorators, 'ContentChildren'), ContentChildrenMetadata);
     this.registerDecoratorOrConstructor(this.host.findDeclaration(coreDecorators, 'ViewChild'),
-                                        ViewChildMetadata);
+      ViewChildMetadata);
     this.registerDecoratorOrConstructor(this.host.findDeclaration(coreDecorators, 'ViewChildren'),
-                                        ViewChildrenMetadata);
+      ViewChildrenMetadata);
     this.registerDecoratorOrConstructor(this.host.findDeclaration(coreDecorators, 'Input'),
-                                        InputMetadata);
+      InputMetadata);
     this.registerDecoratorOrConstructor(this.host.findDeclaration(coreDecorators, 'Output'),
-                                        OutputMetadata);
+      OutputMetadata);
     this.registerDecoratorOrConstructor(this.host.findDeclaration(coreDecorators, 'Pipe'),
-                                        PipeMetadata);
+      PipeMetadata);
     this.registerDecoratorOrConstructor(this.host.findDeclaration(coreDecorators, 'HostBinding'),
-                                        HostBindingMetadata);
+      HostBindingMetadata);
     this.registerDecoratorOrConstructor(this.host.findDeclaration(coreDecorators, 'HostListener'),
-                                        HostListenerMetadata);
+      HostListenerMetadata);
     this.registerDecoratorOrConstructor(this.host.findDeclaration(coreDecorators, 'Directive'),
-                                        DirectiveMetadata);
+      DirectiveMetadata);
     this.registerDecoratorOrConstructor(this.host.findDeclaration(coreDecorators, 'Component'),
-                                        ComponentMetadata);
+      ComponentMetadata);
 
     // Note: Some metadata classes can be used directly with Provider.deps.
     this.registerDecoratorOrConstructor(this.host.findDeclaration(diMetadata, 'HostMetadata'),
-                                        HostMetadata);
+      HostMetadata);
     this.registerDecoratorOrConstructor(this.host.findDeclaration(diMetadata, 'SelfMetadata'),
-                                        SelfMetadata);
+      SelfMetadata);
     this.registerDecoratorOrConstructor(this.host.findDeclaration(diMetadata, 'SkipSelfMetadata'),
-                                        SkipSelfMetadata);
+      SkipSelfMetadata);
     this.registerDecoratorOrConstructor(this.host.findDeclaration(diMetadata, 'OptionalMetadata'),
-                                        OptionalMetadata);
+      OptionalMetadata);
   }
 
   /** @internal */
@@ -319,15 +320,15 @@ export class StaticReflector implements ReflectorReader {
             case "reference":
               if (isPresent(expression['module'])) {
                 staticSymbol = _this.host.findDeclaration(expression['module'], expression['name'],
-                                                          context.filePath);
+                  context.filePath);
               } else {
                 staticSymbol = _this.host.getStaticSymbol(context.moduleId, context.filePath,
-                                                          expression['name']);
+                  expression['name']);
               }
               let result = staticSymbol;
               let moduleMetadata = _this.getModuleMetadata(staticSymbol.filePath);
               let declarationValue =
-                  isPresent(moduleMetadata) ? moduleMetadata['metadata'][staticSymbol.name] : null;
+                isPresent(moduleMetadata) ? moduleMetadata['metadata'][staticSymbol.name] : null;
               if (isPresent(declarationValue)) {
                 if (isClassMetadata(declarationValue)) {
                   result = staticSymbol;
@@ -342,7 +343,7 @@ export class StaticReflector implements ReflectorReader {
             case "call":
               let target = expression['expression'];
               staticSymbol =
-                  _this.host.findDeclaration(target['module'], target['name'], context.filePath);
+                _this.host.findDeclaration(target['module'], target['name'], context.filePath);
               let converter = _this.conversionMap.get(staticSymbol);
               if (isPresent(converter)) {
                 let args = expression['arguments'];

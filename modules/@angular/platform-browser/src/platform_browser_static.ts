@@ -1,22 +1,3 @@
-export * from 'angular2/src/core/angular_entrypoint';
-export {
-  BROWSER_PROVIDERS,
-  ELEMENT_PROBE_PROVIDERS,
-  ELEMENT_PROBE_PROVIDERS_PROD_MODE,
-  inspectNativeElement,
-  BrowserDomAdapter,
-  By,
-  Title,
-  enableDebugTools,
-  disableDebugTools
-} from 'angular2/src/platform/browser_common';
-
-import {Type, isPresent, isBlank} from 'angular2/src/facade/lang';
-import {
-  BROWSER_PROVIDERS,
-  BROWSER_APP_COMMON_PROVIDERS,
-  BROWSER_PLATFORM_MARKER
-} from 'angular2/src/platform/browser_common';
 import {
   ComponentRef,
   coreLoadAndBootstrap,
@@ -25,7 +6,19 @@ import {
   getPlatform,
   createPlatform,
   assertPlatform
-} from 'angular2/core';
+} from '@angular/core';
+
+import {Type, isPresent, isBlank} from './facade/lang';
+import {BROWSER_APP_COMMON_PROVIDERS, BROWSER_PROVIDERS, BROWSER_PLATFORM_MARKER} from './browser_common';
+export {ELEMENT_PROBE_PROVIDERS} from './dom/debug/ng_probe';
+export {BrowserPlatformLocation} from './browser/location/browser_platform_location';
+export {
+  BROWSER_PROVIDERS,
+  By,
+  Title,
+  enableDebugTools,
+  disableDebugTools,
+} from './browser_common';
 
 /**
  * An array of providers that should be passed into `application()` when bootstrapping a component

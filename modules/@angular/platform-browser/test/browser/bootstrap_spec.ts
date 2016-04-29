@@ -1,5 +1,4 @@
 import {
-  AsyncTestCompleter,
   beforeEach,
   afterEach,
   ddescribe,
@@ -9,17 +8,24 @@ import {
   inject,
   it,
   xdescribe,
-  Log,
   xit
-} from 'angular2/testing_internal';
-import {IS_DART, isPresent, stringify} from 'angular2/src/facade/lang';
-import {bootstrap, BROWSER_PROVIDERS, BROWSER_APP_PROVIDERS} from 'angular2/platform/browser';
-import {ApplicationRef, PlatformRef, disposePlatform} from 'angular2/src/core/application_ref';
-import {Console} from 'angular2/src/core/console';
-import {Component, Directive, OnDestroy} from 'angular2/core';
-import {DOM} from 'angular2/src/platform/dom/dom_adapter';
-import {DOCUMENT} from 'angular2/src/platform/dom/dom_tokens';
-import {PromiseWrapper, TimerWrapper} from 'angular2/src/facade/async';
+} from '@angular/core/testing/testing_internal';
+import {
+  fakeAsync,
+  flushMicrotasks,
+  Log,
+  tick,
+} from '@angular/core/testing';
+import {AsyncTestCompleter} from '@angular/core/testing/testing_internal';
+import {IS_DART, isPresent, stringify} from '../../src/facade/lang';
+import {BROWSER_PROVIDERS, BROWSER_APP_PROVIDERS} from '@angular/platform-browser';
+import {bootstrap} from '@angular/platform-browser-dynamic';
+import {ApplicationRef, PlatformRef} from '@angular/core/src/application_ref';
+import {Console} from '@angular/core/src/console';
+import {Component, Directive, OnDestroy} from '@angular/core';
+import {getDOM} from '@angular/platform-browser/src/dom/dom_adapter';
+import {DOCUMENT} from '@angular/platform-browser/src/dom/dom_tokens';
+import {PromiseWrapper, TimerWrapper} from '../../src/facade/async';
 import {
   provide,
   Inject,
@@ -29,10 +35,11 @@ import {
   coreLoadAndBootstrap,
   createPlatform,
   ReflectiveInjector
-} from 'angular2/core';
-import {ExceptionHandler, BaseException} from 'angular2/src/facade/exceptions';
-import {Testability, TestabilityRegistry} from 'angular2/src/core/testability/testability';
-import {ComponentRef} from "angular2/src/core/linker/component_factory";
+} from '@angular/core';
+import {disposePlatform} from '@angular/core/src/application_ref';
+import {ExceptionHandler, BaseException} from '@angular/core';
+import {Testability, TestabilityRegistry} from '@angular/core/src/testability/testability';
+import {ComponentRef} from '@angular/core/src/linker/component_factory';
 
 @Component({selector: 'hello-app', template: '{{greeting}} world!'})
 class HelloRootCmp {
@@ -102,14 +109,14 @@ export function main() {
     beforeEach(() => {
       disposePlatform();
 
-      fakeDoc = DOM.createHtmlDocument();
-      el = DOM.createElement('hello-app', fakeDoc);
-      el2 = DOM.createElement('hello-app-2', fakeDoc);
-      lightDom = DOM.createElement('light-dom-el', fakeDoc);
-      DOM.appendChild(fakeDoc.body, el);
-      DOM.appendChild(fakeDoc.body, el2);
-      DOM.appendChild(el, lightDom);
-      DOM.setText(lightDom, 'loading');
+      fakeDoc = getDOM().createHtmlDocument();
+      el = getDOM().createElement('hello-app', fakeDoc);
+      el2 = getDOM().createElement('hello-app-2', fakeDoc);
+      lightDom = getDOM().createElement('light-dom-el', fakeDoc);
+      getDOM().appendChild(fakeDoc.body, el);
+      getDOM().appendChild(fakeDoc.body, el2);
+      getDOM().appendChild(el, lightDom);
+      getDOM().setText(lightDom, 'loading');
       testProviders =
           [provide(DOCUMENT, {useValue: fakeDoc}), provide(Console, {useClass: DummyConsole})];
     });
@@ -140,7 +147,7 @@ export function main() {
          });
        }));
 
-    if (DOM.supportsDOMEvents()) {
+    if (getDOM().supportsDOMEvents()) {
       it('should forward the error to promise when bootstrap fails',
          inject([AsyncTestCompleter], (async) => {
            // Skip for dart since it causes a confusing error message in console when test passes.

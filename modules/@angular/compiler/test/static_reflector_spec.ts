@@ -1,12 +1,8 @@
-import {describe, it, iit, expect, ddescribe, beforeEach} from 'angular2/testing_internal';
-import {IS_DART, isBlank} from 'angular2/src/facade/lang';
-import {ListWrapper} from 'angular2/src/facade/collection';
+import {describe, it, iit, expect, ddescribe, beforeEach} from '@angular/core/testing/testing_internal';
+import {IS_DART, isBlank} from '../src/facade/lang';
+import {ListWrapper} from '../src/facade/collection';
 
-import {
-  StaticReflector,
-  StaticReflectorHost,
-  StaticSymbol
-} from 'angular2/src/compiler/static_reflector';
+import {StaticReflector, StaticReflectorHost, StaticSymbol} from '@angular/compiler/src/static_reflector';
 
 export function main() {
   // Static reflector is not supported in Dart
@@ -40,28 +36,28 @@ export function main() {
     it('should get constructor for NgFor', () => {
       let NgFor = host.findDeclaration('angular2/src/common/directives/ng_for', 'NgFor');
       let ViewContainerRef =
-          host.findDeclaration('angular2/src/core/linker/view_container_ref', 'ViewContainerRef');
+        host.findDeclaration('angular2/src/core/linker/view_container_ref', 'ViewContainerRef');
       let TemplateRef =
-          host.findDeclaration('angular2/src/core/linker/template_ref', 'TemplateRef');
+        host.findDeclaration('angular2/src/core/linker/template_ref', 'TemplateRef');
       let IterableDiffers = host.findDeclaration(
-          'angular2/src/core/change_detection/differs/iterable_differs', 'IterableDiffers');
+        'angular2/src/core/change_detection/differs/iterable_differs', 'IterableDiffers');
       let ChangeDetectorRef = host.findDeclaration(
-          'angular2/src/core/change_detection/change_detector_ref', 'ChangeDetectorRef');
+        'angular2/src/core/change_detection/change_detector_ref', 'ChangeDetectorRef');
 
       let parameters = reflector.parameters(NgFor);
       expect(parameters)
-          .toEqual([[ViewContainerRef], [TemplateRef], [IterableDiffers], [ChangeDetectorRef]]);
+        .toEqual([[ViewContainerRef], [TemplateRef], [IterableDiffers], [ChangeDetectorRef]]);
     });
 
     it('should get annotations for HeroDetailComponent', () => {
       let HeroDetailComponent =
-          host.findDeclaration('src/app/hero-detail.component', 'HeroDetailComponent');
+        host.findDeclaration('src/app/hero-detail.component', 'HeroDetailComponent');
       let annotations = reflector.annotations(HeroDetailComponent);
       expect(annotations.length).toEqual(1);
       let annotation = annotations[0];
       expect(annotation.selector).toEqual('my-hero-detail');
       expect(annotation.directives)
-          .toEqual([[host.findDeclaration('angular2/src/common/directives/ng_for', 'NgFor')]]);
+        .toEqual([[host.findDeclaration('angular2/src/common/directives/ng_for', 'NgFor')]]);
     });
 
     it('should get and empty annotation list for an unknown class', () => {
@@ -72,7 +68,7 @@ export function main() {
 
     it('should get propMetadata for HeroDetailComponent', () => {
       let HeroDetailComponent =
-          host.findDeclaration('src/app/hero-detail.component', 'HeroDetailComponent');
+        host.findDeclaration('src/app/hero-detail.component', 'HeroDetailComponent');
       let props = reflector.propMetadata(HeroDetailComponent);
       expect(props['hero']).toBeTruthy();
     });
@@ -96,7 +92,7 @@ export function main() {
     });
 
     it('should simplify an array into a copy of the array',
-       () => { expect(simplify(noContext, [1, 2, 3])).toEqual([1, 2, 3]); });
+      () => { expect(simplify(noContext, [1, 2, 3])).toEqual([1, 2, 3]); });
 
     it('should simplify an object to a copy of the object', () => {
       let expr = {a: 1, b: 2, c: 3};
@@ -228,14 +224,14 @@ export function main() {
 
     it('should simplify a module reference', () => {
       expect(simplify(new StaticSymbol('', '/src/cases', ''),
-                      ({__symbolic: "reference", module: "./extern", name: "s"})))
-          .toEqual("s");
+        ({__symbolic: "reference", module: "./extern", name: "s"})))
+        .toEqual("s");
     });
 
     it('should simplify a non existing reference as a static symbol', () => {
       expect(simplify(new StaticSymbol('', '/src/cases', ''),
-                      ({__symbolic: "reference", module: "./extern", name: "nonExisting"})))
-          .toEqual(host.getStaticSymbol('', '/src/extern.d.ts', 'nonExisting'));
+        ({__symbolic: "reference", module: "./extern", name: "nonExisting"})))
+        .toEqual(host.getStaticSymbol('', '/src/extern.d.ts', 'nonExisting'));
     });
   });
 }
@@ -287,7 +283,7 @@ class MockReflectorHost implements StaticReflectorHost {
 
     if (modulePath.indexOf('.') === 0) {
       return this.getStaticSymbol(`mod/${symbolName}`, pathTo(containingFile, modulePath) + '.d.ts',
-                                  symbolName);
+        symbolName);
     }
     return this.getStaticSymbol(`mod/${symbolName}`, '/tmp/' + modulePath + '.d.ts', symbolName);
   }
@@ -295,147 +291,147 @@ class MockReflectorHost implements StaticReflectorHost {
   getMetadataFor(moduleId: string): any {
     return {
       '/tmp/angular2/src/common/forms/directives.d.ts':
+      {
+        "__symbolic": "module",
+        "metadata": {
+          "FORM_DIRECTIVES": [
+            {
+              "__symbolic": "reference",
+              "name": "NgFor",
+              "module": "angular2/src/common/directives/ng_for"
+            }
+          ]
+        }
+      },
+      '/tmp/angular2/src/common/directives/ng_for.d.ts':
+      {
+        "__symbolic": "module",
+        "metadata":
+        {
+          "NgFor":
           {
-            "__symbolic": "module",
-            "metadata": {
-              "FORM_DIRECTIVES": [
+            "__symbolic": "class",
+            "decorators":
+              [
                 {
-                  "__symbolic": "reference",
-                  "name": "NgFor",
-                  "module": "angular2/src/common/directives/ng_for"
+                  "__symbolic": "call",
+                  "expression": {
+                    "__symbolic": "reference",
+                    "name": "Directive",
+                    "module": "@angular/core"
+                  },
+                  "arguments": [
+                    {
+                      "selector": "[ngFor][ngForOf]",
+                      "inputs": ["ngForTrackBy", "ngForOf", "ngForTemplate"]
+                    }
+                  ]
+                }
+              ],
+            "members":
+            {
+              "__ctor__": [
+                {
+                  "__symbolic": "constructor",
+                  "parameters":
+                    [
+                      {
+                        "__symbolic": "reference",
+                        "module": "../../core/linker/view_container_ref",
+                        "name": "ViewContainerRef"
+                      },
+                      {
+                        "__symbolic": "reference",
+                        "module": "../../core/linker/template_ref",
+                        "name": "TemplateRef"
+                      },
+                      {
+                        "__symbolic": "reference",
+                        "module":
+                          "../../core/change_detection/differs/iterable_differs",
+                        "name": "IterableDiffers"
+                      },
+                      {
+                        "__symbolic": "reference",
+                        "module":
+                          "../../core/change_detection/change_detector_ref",
+                        "name": "ChangeDetectorRef"
+                      }
+                    ]
                 }
               ]
             }
-          },
-          '/tmp/angular2/src/common/directives/ng_for.d.ts':
-              {
-                "__symbolic": "module",
-                "metadata":
+          }
+        }
+      },
+      '/tmp/angular2/src/core/linker/view_container_ref.d.ts':
+      {"metadata": {"ViewContainerRef": {"__symbolic": "class"}}},
+      '/tmp/angular2/src/core/linker/template_ref.d.ts':
+      {"module": "./template_ref", "metadata": {"TemplateRef": {"__symbolic": "class"}}},
+      '/tmp/angular2/src/core/change_detection/differs/iterable_differs.d.ts':
+      {"metadata": {"IterableDiffers": {"__symbolic": "class"}}},
+      '/tmp/angular2/src/core/change_detection/change_detector_ref.d.ts':
+      {"metadata": {"ChangeDetectorRef": {"__symbolic": "class"}}},
+      '/tmp/src/app/hero-detail.component.d.ts':
+      {
+        "__symbolic": "module",
+        "metadata":
+        {
+          "HeroDetailComponent":
+          {
+            "__symbolic": "class",
+            "decorators":
+              [
+                {
+                  "__symbolic": "call",
+                  "expression": {
+                    "__symbolic": "reference",
+                    "name": "Component",
+                    "module": "@angular/core"
+                  },
+                  "arguments": [
                     {
-                      "NgFor":
+                      "selector": "my-hero-detail",
+                      "template": "\n  <div *ngIf=\"hero\">\n    <h2>{{hero.name}} details!</h2>\n    <div><label>id: </label>{{hero.id}}</div>\n    <div>\n      <label>name: </label>\n      <input [(ngModel)]=\"hero.name\" placeholder=\"name\"/>\n    </div>\n  </div>\n",
+                      "directives":
+                        [
                           {
-                            "__symbolic": "class",
-                            "decorators":
-                                [
-                                  {
-                                    "__symbolic": "call",
-                                    "expression": {
-                                      "__symbolic": "reference",
-                                      "name": "Directive",
-                                      "module": "../../core/metadata"
-                                    },
-                                    "arguments": [
-                                      {
-                                        "selector": "[ngFor][ngForOf]",
-                                        "inputs": ["ngForTrackBy", "ngForOf", "ngForTemplate"]
-                                      }
-                                    ]
-                                  }
-                                ],
-                            "members":
-                                {
-                                  "__ctor__": [
-                                    {
-                                      "__symbolic": "constructor",
-                                      "parameters":
-                                          [
-                                            {
-                                              "__symbolic": "reference",
-                                              "module": "../../core/linker/view_container_ref",
-                                              "name": "ViewContainerRef"
-                                            },
-                                            {
-                                              "__symbolic": "reference",
-                                              "module": "../../core/linker/template_ref",
-                                              "name": "TemplateRef"
-                                            },
-                                            {
-                                              "__symbolic": "reference",
-                                              "module":
-                                                  "../../core/change_detection/differs/iterable_differs",
-                                              "name": "IterableDiffers"
-                                            },
-                                            {
-                                              "__symbolic": "reference",
-                                              "module":
-                                                  "../../core/change_detection/change_detector_ref",
-                                              "name": "ChangeDetectorRef"
-                                            }
-                                          ]
-                                    }
-                                  ]
-                                }
+                            "__symbolic": "reference",
+                            "name": "FORM_DIRECTIVES",
+                            "module": "angular2/src/common/forms/directives"
                           }
+                        ]
                     }
-              },
-          '/tmp/angular2/src/core/linker/view_container_ref.d.ts':
-              {"metadata": {"ViewContainerRef": {"__symbolic": "class"}}},
-          '/tmp/angular2/src/core/linker/template_ref.d.ts':
-              {"module": "./template_ref", "metadata": {"TemplateRef": {"__symbolic": "class"}}},
-          '/tmp/angular2/src/core/change_detection/differs/iterable_differs.d.ts':
-              {"metadata": {"IterableDiffers": {"__symbolic": "class"}}},
-          '/tmp/angular2/src/core/change_detection/change_detector_ref.d.ts':
-              {"metadata": {"ChangeDetectorRef": {"__symbolic": "class"}}},
-          '/tmp/src/app/hero-detail.component.d.ts':
-              {
-                "__symbolic": "module",
-                "metadata":
-                    {
-                      "HeroDetailComponent":
-                          {
-                            "__symbolic": "class",
-                            "decorators":
-                                [
-                                  {
-                                    "__symbolic": "call",
-                                    "expression": {
-                                      "__symbolic": "reference",
-                                      "name": "Component",
-                                      "module": "angular2/src/core/metadata"
-                                    },
-                                    "arguments": [
-                                      {
-                                        "selector": "my-hero-detail",
-                                        "template": "\n  <div *ngIf=\"hero\">\n    <h2>{{hero.name}} details!</h2>\n    <div><label>id: </label>{{hero.id}}</div>\n    <div>\n      <label>name: </label>\n      <input [(ngModel)]=\"hero.name\" placeholder=\"name\"/>\n    </div>\n  </div>\n",
-                                        "directives":
-                                            [
-                                              {
-                                                "__symbolic": "reference",
-                                                "name": "FORM_DIRECTIVES",
-                                                "module": "angular2/src/common/forms/directives"
-                                              }
-                                            ]
-                                      }
-                                    ]
-                                  }
-                                ],
-                            "members":
-                                {
-                                  "hero": [
-                                    {
-                                      "__symbolic": "property",
-                                      "decorators":
-                                          [
-                                            {
-                                              "__symbolic": "call",
-                                              "expression":
-                                                  {
-                                                    "__symbolic": "reference",
-                                                    "name": "Input",
-                                                    "module": "angular2/src/core/metadata"
-                                                  }
-                                            }
-                                          ]
-                                    }
-                                  ]
-                                }
-                          }
-                    }
-              },
-          '/src/extern.d.ts': {
+                  ]
+                }
+              ],
+            "members":
+            {
+              "hero": [
+                {
+                  "__symbolic": "property",
+                  "decorators":
+                    [
+                      {
+                        "__symbolic": "call",
+                        "expression":
+                        {
+                          "__symbolic": "reference",
+                          "name": "Input",
+                          "module": "@angular/core"
+                        }
+                      }
+                    ]
+                }
+              ]
+            }
+          }
+        }
+      },
+      '/src/extern.d.ts': {
         "__symbolic": "module", metadata: { s: "s" }
       }
     }
-    [moduleId];
+      [moduleId];
   }
 }

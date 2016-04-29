@@ -1,4 +1,4 @@
-import {IS_DART, StringWrapper, Math, isBlank} from 'angular2/src/facade/lang';
+import {IS_DART, StringWrapper} from '../src/facade/lang';
 
 export var MODULE_SUFFIX = IS_DART ? '.dart' : '';
 
@@ -26,4 +26,20 @@ export function splitAtColon(input: string, defaultValues: string[]): string[] {
 
 export function sanitizeIdentifier(name: string): string {
   return StringWrapper.replaceAll(name, /\W/g, '_');
+}
+
+export function assetUrl(pkg: string, path: string = null, type:string = 'src'): string {
+  if (IS_DART) {
+    if (path == null) {
+      return `asset:angular2/${pkg}/${pkg}.dart`;
+    } else {
+      return `asset:angular2/lib/${pkg}/src/${path}.dart`;
+    }
+  } else {
+    if (path == null) {
+      return `asset:@angular/lib/${pkg}/index`;
+    } else {
+      return `asset:@angular/lib/${pkg}/src/${path}`;
+    }
+  }
 }

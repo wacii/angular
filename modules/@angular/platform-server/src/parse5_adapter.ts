@@ -3,8 +3,8 @@ var parser = new parse5.Parser(parse5.TreeAdapters.htmlparser2);
 var serializer = new parse5.Serializer(parse5.TreeAdapters.htmlparser2);
 var treeAdapter = parser.treeAdapter;
 
-import {MapWrapper, ListWrapper, StringMapWrapper} from 'angular2/src/facade/collection';
-import {DomAdapter, setRootDomAdapter} from 'angular2/platform/common_dom';
+import {ListWrapper, StringMapWrapper} from '../src/facade/collection';
+import {DomAdapter, setRootDomAdapter} from '../platform_browser_private';
 import {
   isPresent,
   isBlank,
@@ -12,10 +12,10 @@ import {
   Type,
   setValueOnPath,
   DateWrapper
-} from 'angular2/src/facade/lang';
-import {BaseException, WrappedException} from 'angular2/src/facade/exceptions';
-import {SelectorMatcher, CssSelector} from 'angular2/src/compiler/selector';
-import {XHR} from 'angular2/src/compiler/xhr';
+} from '../src/facade/lang';
+import {BaseException} from '../src/facade/exceptions';
+import {SelectorMatcher, CssSelector} from '../compiler_private';
+import {XHR} from '@angular/compiler';
 
 var _attrToPropMap: {[key: string]: string} = {
   'class': 'className',
